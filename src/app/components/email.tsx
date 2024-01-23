@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "./form";
 import { Social } from "./social";
-import { handleEmailSend } from "../handle-email-send";
+import { handleEmailSent } from "../api/send/handle-email-send";
 
 const formSchema = z.object({
   email: z.string(),
@@ -36,7 +36,7 @@ const EmailSection = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     setEmailSubmitted(true);
-    handleEmailSend({
+    handleEmailSent({
       email: values.email,
       subject: values.subject,
       message: values.message,
