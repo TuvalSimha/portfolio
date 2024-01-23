@@ -33,7 +33,7 @@ const EmailSection = () => {
     },
   });
 
-  const onSubmit = async (formData) => {
+  const onSubmit = async (formData: any) => {
     setLoading(true);
 
     try {
