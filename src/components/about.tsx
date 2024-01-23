@@ -2,6 +2,7 @@
 import { useTransition, useState } from "react";
 import Image from "next/image";
 import TabButton from "./tab";
+import React from "react";
 
 type TabData = {
   title: string;
@@ -81,7 +82,7 @@ const AboutSection = () => {
               Education
             </TabButton>
           </div>
-          <div className="mt-8">
+          <div className="mt-8" id="skills">
             {isTransition ? null : TAB_DATA.find((t) => t.id === tab)?.content}
           </div>
         </div>

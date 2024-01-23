@@ -4,6 +4,7 @@ import { useState } from "react";
 import NavLink from "./nav-link";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
 import MenuOverlay from "./menu-overlay";
+import React from "react";
 
 type LinkNav = {
   title: string;

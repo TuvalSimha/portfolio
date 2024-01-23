@@ -1,4 +1,5 @@
 import NavLink from "./nav-link";
+import React from "react";
 
 type Link = {
   title: string;

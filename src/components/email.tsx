@@ -1,6 +1,6 @@
+// components/email.tsx
 "use client";
 import React, { useState } from "react";
-import { Resend } from "resend";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,7 +13,6 @@ import {
   FormMessage,
 } from "./form";
 import { Social } from "./social";
-import { handleEmailSent } from "../api/send/handle-email-send";
 
 const formSchema = z.object({
   email: z.string(),
@@ -22,7 +21,8 @@ const formSchema = z.object({
 });
 
 const EmailSection = () => {
-  const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -33,15 +33,33 @@ const EmailSection = () => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    setEmailSubmitted(true);
-    handleEmailSent({
-      email: values.email,
-      subject: values.subject,
-      message: values.message,
-    });
-  }
+  const onSubmit = async (formData) => {
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+      console.log("data", data);
+
+      setLoading(false);
+
+      if (response.ok) {
+        setEmailSent(true);
+      } else {
+        alert("Apologies! Please try again.");
+      }
+    } catch (err) {
+      setLoading(false);
+      alert("Ooops! Unfortunately, some error has occurred.");
+    }
+  };
 
   return (
     <section
@@ -60,7 +78,7 @@ const EmailSection = () => {
         <Social />
       </div>
       <div>
-        {emailSubmitted ? (
+        {emailSent ? (
           <p className="text-green-500 text-sm mt-2">
             Email sent successfully!
           </p>
@@ -132,7 +150,7 @@ const EmailSection = () => {
                     </FormItem>
                   )}
                 />
-              </div>
+              </div>{" "}
               <button
                 type="submit"
                 className="bg-primary-500 hover:bg-primary-600 text-white font-medium py-2.5 px-5 rounded-lg w-full"

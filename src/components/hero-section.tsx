@@ -3,6 +3,7 @@ import Image from "next/image";
 import { TypeAnimation } from "react-type-animation";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import React from "react";
 
 const HeroSection = () => {
   return (
