@@ -13,8 +13,7 @@ import {
   FormMessage,
 } from "./form";
 import { Social } from "./social";
-
-const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
+import { handleEmailSend } from "../handle-email-send";
 
 const formSchema = z.object({
   email: z.string(),
@@ -34,14 +33,13 @@ const EmailSection = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     setEmailSubmitted(true);
-    resend.emails.send({
-      from: values.email,
-      to: "tuval.simha@gmail.com",
+    handleEmailSend({
+      email: values.email,
       subject: values.subject,
-      html: values.message,
+      message: values.message,
     });
   }
 
