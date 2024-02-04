@@ -42,7 +42,7 @@ const EmailSection = () => {
         process.env.EMAIL_SERVICE_ID ?? "",
         process.env.EMAIL_TEMPLATE_ID ?? "",
         formData,
-        process.env.EMAIL_USER_ID ?? ""
+        process.env.EMAIL_USER_ID ?? "wujlppzFkdxjcKXBv"
       );
       setEmailSent(true);
     } catch (error) {
