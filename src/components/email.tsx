@@ -39,10 +39,10 @@ const EmailSection = () => {
 
     try {
       await emailjs.send(
-        process.env.EMAIL_SERVICE_ID ?? "",
-        process.env.EMAIL_TEMPLATE_ID ?? "",
+        process.env.EMAIL_SERVICE_ID as string,
+        process.env.EMAIL_TEMPLATE_ID as string,
         formData,
-        process.env.EMAIL_USER_ID ?? "wujlppzFkdxjcKXBv"
+        process.env.EMAIL_USER_ID as string
       );
       setEmailSent(true);
     } catch (error) {
