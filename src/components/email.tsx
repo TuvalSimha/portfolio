@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import emailjs from "@emailjs/browser";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -37,27 +38,17 @@ const EmailSection = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/send-email", {
-        method: "POST",
-        body: JSON.stringify(formData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const data = await response.json();
-      console.log("data", data);
-
+      await emailjs.send(
+        process.env.EMAIL_SERVICE_ID ?? "",
+        process.env.EMAIL_TEMPLATE_ID ?? "",
+        formData,
+        process.env.EMAIL_USER_ID ?? "wujlppzFkdxjcKXBv"
+      );
+      setEmailSent(true);
+    } catch (error) {
+      console.error("Failed to send email", error);
+    } finally {
       setLoading(false);
-
-      if (response.ok) {
-        setEmailSent(true);
-      } else {
-        alert("Apologies! Please try again.");
-      }
-    } catch (err) {
-      setLoading(false);
-      alert("Ooops! Unfortunately, some error has occurred.");
     }
   };
 
